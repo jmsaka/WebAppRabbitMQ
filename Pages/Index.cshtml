@@ -1,0 +1,58 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">WebAppRabbitMQ</h1>
+    <p>Status from RabbitMQ connection: <strong>@Model.Status</strong>.</p>
+</div>
+
+
+<h2>RabbitMQ Operations</h2>
+<form method="post">
+    <div>
+        <label>Queue Name:</label>
+        <input type="text" asp-for="QueueName" />
+        <button type="submit" asp-page-handler="CreateQueue">Create Queue</button>
+        <button type="submit" asp-page-handler="DeleteQueue">Delete Queue</button>
+    </div>
+</form>
+<p></p>
+<h3>Publish Message</h3>
+<form method="post">
+    <div>
+        <label>Message:</label>
+        <input type="text" asp-for="QueueName" />
+        <input type="text" asp-for="Message" />
+        <button type="submit" asp-page-handler="PublishMessage">Publish Message</button>
+    </div>
+</form>
+<p></p>
+<h3>Consume Message</h3>
+<form method="post">
+    <div>
+        <input type="text" asp-for="QueueName" />
+        <button type="submit" asp-page-handler="ConsumeMessage">Consume Message</button>
+    </div>
+    @if (Model.ConsumedMessage != null)
+    {
+        <p>Consumed Message: @Model.ConsumedMessage</p>
+    }
+</form>
+<p></p>
+<h3>List Existing Queues</h3>
+<form method="post">
+    <button type="submit" asp-page-handler="ListQueues">List Queues</button>
+</form>
+
+@if (Model.Queues != null)
+{
+    <ul>
+        @foreach (var queue in Model.Queues)
+        {
+            <li>@queue</li>
+        }
+    </ul>
+}
